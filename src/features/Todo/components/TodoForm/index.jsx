@@ -14,7 +14,7 @@ function TodoForm(props) {
         title: yup.string().required('Vui lòng nhập tiêu đề').min(5, 'Tiêu đề quá ngắn'),
     });
 
-    const useform = useForm({
+    const form = useForm({
         defaultValues: {
             title: '',
         },
@@ -22,13 +22,16 @@ function TodoForm(props) {
     });
 
     const handleSubmitForm = (values) => {
-        console.log('SUBMIT TodoForm', values);
+        const { onSubmit } = props;
+        if (onSubmit) onSubmit(values);
+
+        form.reset();
     };
 
     return (
-        <form onSubmit={useform.handleSubmit(handleSubmitForm)}>
+        <form onSubmit={form.handleSubmit(handleSubmitForm)}>
             Todo Form
-            <InputField name="title" lable="todo" form={useform} />
+            <InputField name="title" label="todo" form={form} />
         </form>
     );
 }
